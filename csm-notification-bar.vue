@@ -1,14 +1,14 @@
 <template>
   <div
-          class='csm-notification-bar'
+          class='notification-bar'
   >
-    <transition-group name="csm-notifications">
-      <div class="csm-notification-bar__content"
+    <transition-group name="notifications">
+      <div class="notification-bar__content"
            v-for="(message, index) in messages"
            :class="message.type"
            :key="message.id"
       >
-        <div class="content__text-content col12 align-baseline">
+        <div class="content__text-content align-baseline">
           <span>
   {{message.name}}
 </span>
@@ -19,33 +19,14 @@
           >
           </i>
         </div>
-        <div class="content_action-btns col2 row align-end justify-end" v-if="leftBtnText || rightBtnText">
-          <csm-btn
-                  v-if="leftBtnText"
-                  :title="leftBtnText"
-                  size="small"
-                  @click="leftBtnClick(index)"
-          />
-          <csm-btn
-                  v-if="rightBtnText"
-                  :title="rightBtnText"
-                  size="small"
-                  @click="rightBtnClick(index)"
-          />
-        </div>
       </div>
     </transition-group>
   </div>
 </template>
 
 <script>
-  import csmBtn from '../buttons/csm-btn'
-
   export default {
-    name: "csm-notification-bar",
-    components: {
-      csmBtn
-    },
+    name: "notification-bar",
     props: {
       notificationType: {
         type: String,
@@ -115,14 +96,14 @@
 </script>
 
 <style lang="scss">
-  .csm-notification-bar {
+  .notification-bar {
     position: fixed;
     top: 16px;
     right: 16px;
     z-index: 10;
   }
 
-  .csm-notification-bar__content {
+  .notification-bar__content {
     border: solid 1px transparent;
     border-radius: 4px;
     height: 50px;
@@ -130,20 +111,24 @@
     justify-content: space-around;
     align-items: center;
     padding: $padding*2;
-    margin-bottom: $padding*2;
-    color: $csm-bg-color-light;
+    margin-bottom: 16px;
+    color: #ffffff;
     box-shadow: 0 11px 15px -7px rgba(0, 0, 0, .2), 0 24px 38px 3px rgba(0, 0, 0, .14), 0 9px 46px 8px rgba(0, 0, 0, .12);
 
+    &.align-baseline {
+      align-items: baseline;
+    }
+
     &.check_circle {
-      background-color: $csm-bg-color-success;
+      background-color: green;
     }
 
     &.error {
-      background-color: $csm-bg-color-error;
+      background-color: red;
     }
 
     &.warning {
-      background-color: $csm-bg-color-warning;
+      background-color: orange;
     }
 
     & .material-icons {
@@ -154,12 +139,8 @@
     }
   }
 
-  .content_action-btns {
-    margin-left: 20px;
-  }
-
   /*notification animation*/
-  .csm-notifications {
+  .notifications {
     &-enter {
       transform: translateX(120px);
       opacity: 0;
@@ -199,22 +180,3 @@
     }
   }
 </style>
-
-<docs>
-  ## Компонент csm-notification-bar
-
-  ### Кнопка-ссылка
-
-  ### Примеры:
-
-  ```jsx
-  <csm-notification-bar
-          v-if="notifications"
-          :messages="notificationMsgs"
-  />
-  <csm-btn
-          title="Показать уведомление"
-          @click="showNotifications"
-  />
-  ```
-</docs>
